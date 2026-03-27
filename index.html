@@ -4,132 +4,218 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>JD Sports Redesign</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
+    * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+      font-family: 'Inter', sans-serif;
+      background: #0f0f0f;
+      color: white;
     }
 
     header {
-      background: #000;
-      color: #fff;
-      padding: 15px 30px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 15px 40px;
+      background: black;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    header h1 {
-      margin: 0;
-    }
+    .logo { font-weight: 700; font-size: 22px; }
+
+    .nav-links { display: flex; gap: 20px; }
+    .nav-links a { color: #ccc; text-decoration: none; font-size: 14px; }
+    .nav-links a:hover { color: white; }
 
     .search-box input {
-      padding: 8px;
-      border-radius: 6px;
+      padding: 8px 12px;
+      border-radius: 20px;
       border: none;
+      outline: none;
+    }
+
+    .cart {
+      background: white;
+      color: black;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-weight: 600;
     }
 
     .hero {
-      background: url('https://via.placeholder.com/1200x400') center/cover;
-      color: white;
-      padding: 80px 30px;
+      position: relative;
+      height: 70vh;
+      background: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff') center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
     }
 
-    .hero h2 {
-      font-size: 40px;
-      margin-bottom: 10px;
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
     }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero h2 { font-size: 50px; margin: 0; }
+    .hero p { color: #ccc; margin: 10px 0; }
 
     .hero button {
-      padding: 10px 20px;
-      background: white;
+      padding: 12px 25px;
       border: none;
+      background: white;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 600;
+      border-radius: 30px;
     }
 
-    .products {
+    .layout {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: 250px 1fr;
       gap: 20px;
       padding: 30px;
     }
 
-    .card {
-      background: white;
+    .sidebar {
+      background: #1a1a1a;
+      padding: 20px;
       border-radius: 12px;
-      padding: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      text-align: center;
     }
 
-    .card img {
+    .sidebar h3 { margin-top: 0; }
+
+    .sidebar button {
+      display: block;
       width: 100%;
-      border-radius: 10px;
+      margin: 8px 0;
+      padding: 8px;
+      background: #2a2a2a;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
     }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #1a1a1a;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .card img { width: 100%; height: 200px; object-fit: cover; }
+
+    .card-content { padding: 15px; }
+
+    .card h3 { margin: 0; }
+    .price { margin: 5px 0; color: #aaa; }
 
     .card button {
-      margin-top: 10px;
-      padding: 8px 15px;
+      width: 100%;
+      padding: 10px;
+      background: white;
       border: none;
-      background: black;
-      color: white;
+      border-radius: 10px;
       cursor: pointer;
-      border-radius: 6px;
+      font-weight: 600;
     }
 
-    .cart {
-      position: fixed;
-      top: 20px;
-      right: 20px;
+    footer {
+      text-align: center;
+      padding: 20px;
       background: black;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
+      color: #777;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>JD Redesign</h1>
-  <div class="search-box">
-    <input type="text" id="search" placeholder="Search trainers..." onkeyup="filterProducts()">
+  <div class="logo">JD Redesign</div>
+  <div class="nav-links">
+    <a href="#">Men</a>
+    <a href="#">Women</a>
+    <a href="#">Kids</a>
+    <a href="#">Sale</a>
+  </div>
+  <div style="display:flex; gap:10px; align-items:center;">
+    <div class="search-box">
+      <input type="text" id="search" placeholder="Search..." onkeyup="filterProducts()">
+    </div>
+    <div class="cart" id="cart">0</div>
   </div>
 </header>
 
-<div class="cart" id="cart">Cart: 0</div>
-
 <section class="hero">
-  <h2>Level Up Your Style</h2>
-  <p>Discover the latest trainers & streetwear</p>
-  <button>Shop Now</button>
+  <div class="hero-content">
+    <h2>Level Up Your Style</h2>
+    <p>Latest drops from Nike, Adidas & more</p>
+    <button>Shop Now</button>
+  </div>
 </section>
 
-<section class="products" id="products"></section>
+<div class="layout">
+  <div class="sidebar">
+    <h3>Brands</h3>
+    <button onclick="filterBrand('all')">All</button>
+    <button onclick="filterBrand('Nike')">Nike</button>
+    <button onclick="filterBrand('Adidas')">Adidas</button>
+    <button onclick="filterBrand('Puma')">Puma</button>
+  </div>
+
+  <div class="products" id="products"></div>
+</div>
+
+<footer>
+  © 2026 JD Redesign Concept
+</footer>
 
 <script>
   const products = [
-    { name: "Nike Air Max", price: 120, image: "https://via.placeholder.com/250" },
-    { name: "Adidas Ultraboost", price: 140, image: "https://via.placeholder.com/250" },
-    { name: "Puma RS-X", price: 100, image: "https://via.placeholder.com/250" }
+    { name: "Nike Air Max", price: 120, brand: "Nike", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff" },
+    { name: "Adidas Ultraboost", price: 140, brand: "Adidas", image: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb" },
+    { name: "Puma RS-X", price: 100, brand: "Puma", image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a" }
   ];
 
   let cartCount = 0;
+  let currentBrand = 'all';
 
   function displayProducts(list) {
-    const container = document.getElementById("products");
-    container.innerHTML = "";
+    const container = document.getElementById('products');
+    container.innerHTML = '';
 
-    list.forEach(product => {
+    list.forEach(p => {
       container.innerHTML += `
         <div class="card">
-          <img src="${product.image}" />
-          <h3>${product.name}</h3>
-          <p>£${product.price}</p>
-          <button onclick="addToCart()">Add to Cart</button>
+          <img src="${p.image}">
+          <div class="card-content">
+            <h3>${p.name}</h3>
+            <div class="price">£${p.price}</div>
+            <button onclick="addToCart()">Add to Cart</button>
+          </div>
         </div>
       `;
     });
@@ -137,13 +223,23 @@
 
   function addToCart() {
     cartCount++;
-    document.getElementById("cart").innerText = "Cart: " + cartCount;
+    document.getElementById('cart').innerText = cartCount;
   }
 
   function filterProducts() {
-    const search = document.getElementById("search").value.toLowerCase();
-    const filtered = products.filter(p => p.name.toLowerCase().includes(search));
+    const search = document.getElementById('search').value.toLowerCase();
+    let filtered = products.filter(p => p.name.toLowerCase().includes(search));
+
+    if (currentBrand !== 'all') {
+      filtered = filtered.filter(p => p.brand === currentBrand);
+    }
+
     displayProducts(filtered);
+  }
+
+  function filterBrand(brand) {
+    currentBrand = brand;
+    filterProducts();
   }
 
   displayProducts(products);
@@ -151,4 +247,3 @@
 
 </body>
 </html>
-          
