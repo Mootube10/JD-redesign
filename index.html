@@ -1,100 +1,154 @@
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ShoppingCart, Search } from "lucide-react";
-import { motion } from "framer-motion";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JD Sports Redesign</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
 
-const products = [
-  { id: 1, name: "Nike Air Max", price: 120, brand: "Nike" },
-  { id: 2, name: "Adidas Ultraboost", price: 140, brand: "Adidas" },
-  { id: 3, name: "Puma RS-X", price: 100, brand: "Puma" },
-];
+    header {
+      background: #000;
+      color: #fff;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-export default function JDRedesign() {
-  const [cart, setCart] = useState([]);
-  const [search, setSearch] = useState("");
+    header h1 {
+      margin: 0;
+    }
 
-  const addToCart = (product) => {
-    setCart((prev) => [...prev, product]);
-  };
+    .search-box input {
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+    }
 
-  const filtered = products.filter((p) =>
-    p.name.toLowerCase().includes(search.toLowerCase())
-  );
+    .hero {
+      background: url('https://via.placeholder.com/1200x400') center/cover;
+      color: white;
+      padding: 80px 30px;
+      text-align: center;
+    }
 
-  return (
-    <div className="min-h-screen bg-gray-100 p-6 space-y-8">
-      {/* Navbar */}
-      <div className="flex justify-between items-center bg-white p-4 rounded-2xl shadow">
-        <h1 className="text-2xl font-bold">JD Redesign</h1>
+    .hero h2 {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
 
-        <div className="flex items-center gap-4">
-          <div className="flex items-center border rounded-xl px-3 py-1 bg-gray-50">
-            <Search size={18} />
-            <Input
-              placeholder="Search trainers..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="border-none bg-transparent focus-visible:ring-0"
-            />
-          </div>
+    .hero button {
+      padding: 10px 20px;
+      background: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
 
-          <Button variant="outline" className="flex items-center gap-2">
-            <ShoppingCart size={18} /> {cart.length}
-          </Button>
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .card button {
+      margin-top: 10px;
+      padding: 8px 15px;
+      border: none;
+      background: black;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .cart {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: black;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>JD Redesign</h1>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="Search trainers..." onkeyup="filterProducts()">
+  </div>
+</header>
+
+<div class="cart" id="cart">Cart: 0</div>
+
+<section class="hero">
+  <h2>Level Up Your Style</h2>
+  <p>Discover the latest trainers & streetwear</p>
+  <button>Shop Now</button>
+</section>
+
+<section class="products" id="products"></section>
+
+<script>
+  const products = [
+    { name: "Nike Air Max", price: 120, image: "https://via.placeholder.com/250" },
+    { name: "Adidas Ultraboost", price: 140, image: "https://via.placeholder.com/250" },
+    { name: "Puma RS-X", price: 100, image: "https://via.placeholder.com/250" }
+  ];
+
+  let cartCount = 0;
+
+  function displayProducts(list) {
+    const container = document.getElementById("products");
+    container.innerHTML = "";
+
+    list.forEach(product => {
+      container.innerHTML += `
+        <div class="card">
+          <img src="${product.image}" />
+          <h3>${product.name}</h3>
+          <p>£${product.price}</p>
+          <button onclick="addToCart()">Add to Cart</button>
         </div>
-      </div>
+      `;
+    });
+  }
 
-      {/* Hero Section */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-black text-white rounded-2xl p-10 shadow-lg"
-      >
-        <h2 className="text-4xl font-bold">Level Up Your Style</h2>
-        <p className="mt-2 text-lg text-gray-300">
-          Discover the latest trainers & streetwear
-        </p>
-        <Button className="mt-5">Shop Now</Button>
-      </motion.div>
+  function addToCart() {
+    cartCount++;
+    document.getElementById("cart").innerText = "Cart: " + cartCount;
+  }
 
-      {/* Products */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {filtered.map((product) => (
-          <motion.div
-            key={product.id}
-            whileHover={{ scale: 1.03 }}
-            className=""
-          >
-            <Card className="rounded-2xl shadow-md hover:shadow-xl transition">
-              <CardContent className="p-4 space-y-3">
-                <div className="h-40 bg-gray-200 rounded-xl flex items-center justify-center text-sm text-gray-500">
-                  Image
-                </div>
+  function filterProducts() {
+    const search = document.getElementById("search").value.toLowerCase();
+    const filtered = products.filter(p => p.name.toLowerCase().includes(search));
+    displayProducts(filtered);
+  }
 
-                <div>
-                  <h3 className="text-lg font-semibold">
-                    {product.name}
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    {product.brand}
-                  </p>
-                </div>
+  displayProducts(products);
+</script>
 
-                <p className="font-bold text-lg">£{product.price}</p>
-
-                <Button
-                  onClick={() => addToCart(product)}
-                  className="w-full"
-                >
-                  Add to Cart
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
+</body>
+</html>
+          
