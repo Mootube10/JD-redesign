@@ -1,248 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JD Sports Redesign</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JD High-End Concept</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: #0f0f0f;
-      color: white;
-    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,sans-serif;background:#0b0b0b;color:#fff}
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 40px;
-      background: black;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+    header{display:flex;justify-content:space-between;align-items:center;padding:16px 40px;background:#000;position:sticky;top:0;z-index:10}
+    .logo{font-weight:700;font-size:22px}
+    .nav{display:flex;gap:20px}
+    .nav a{color:#aaa;text-decoration:none}
+    .nav a:hover{color:#fff}
 
-    .logo { font-weight: 700; font-size: 22px; }
+    .right{display:flex;gap:10px;align-items:center}
+    input{padding:8px 12px;border-radius:20px;border:none}
+    .cart-btn{background:#fff;color:#000;padding:6px 12px;border-radius:20px;cursor:pointer}
 
-    .nav-links { display: flex; gap: 20px; }
-    .nav-links a { color: #ccc; text-decoration: none; font-size: 14px; }
-    .nav-links a:hover { color: white; }
+    .hero{height:70vh;background:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff') center/cover;display:flex;align-items:center;justify-content:center;position:relative}
+    .hero::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.6)}
+    .hero-content{position:relative;text-align:center}
+    .hero h1{font-size:52px;margin:0}
+    .hero button{margin-top:15px;padding:12px 25px;border:none;border-radius:30px;font-weight:600;cursor:pointer}
 
-    .search-box input {
-      padding: 8px 12px;
-      border-radius: 20px;
-      border: none;
-      outline: none;
-    }
+    .container{display:grid;grid-template-columns:240px 1fr;gap:20px;padding:30px}
+    .sidebar{background:#141414;padding:20px;border-radius:12px}
+    .sidebar button{width:100%;margin:6px 0;padding:8px;background:#222;border:none;color:#fff;border-radius:8px;cursor:pointer}
 
-    .cart {
-      background: white;
-      color: black;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-weight: 600;
-    }
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+    .card{background:#141414;border-radius:16px;overflow:hidden;cursor:pointer;transition:.2s}
+    .card:hover{transform:translateY(-6px)}
+    .card img{width:100%;height:200px;object-fit:cover}
+    .card-content{padding:15px}
+    .price{color:#aaa}
 
-    .hero {
-      position: relative;
-      height: 70vh;
-      background: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff') center/cover;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center}
+    .modal-box{background:#111;padding:20px;border-radius:12px;width:90%;max-width:500px}
 
-    .hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: rgba(0,0,0,0.6);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero h2 { font-size: 50px; margin: 0; }
-    .hero p { color: #ccc; margin: 10px 0; }
-
-    .hero button {
-      padding: 12px 25px;
-      border: none;
-      background: white;
-      cursor: pointer;
-      font-weight: 600;
-      border-radius: 30px;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      gap: 20px;
-      padding: 30px;
-    }
-
-    .sidebar {
-      background: #1a1a1a;
-      padding: 20px;
-      border-radius: 12px;
-    }
-
-    .sidebar h3 { margin-top: 0; }
-
-    .sidebar button {
-      display: block;
-      width: 100%;
-      margin: 8px 0;
-      padding: 8px;
-      background: #2a2a2a;
-      border: none;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #1a1a1a;
-      border-radius: 16px;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    .card img { width: 100%; height: 200px; object-fit: cover; }
-
-    .card-content { padding: 15px; }
-
-    .card h3 { margin: 0; }
-    .price { margin: 5px 0; color: #aaa; }
-
-    .card button {
-      width: 100%;
-      padding: 10px;
-      background: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background: black;
-      color: #777;
-      margin-top: 30px;
-    }
+    /* Cart Drawer */
+    .cart{position:fixed;top:0;right:-320px;width:300px;height:100%;background:#111;padding:20px;transition:.3s}
+    .cart.open{right:0}
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">JD Redesign</div>
-  <div class="nav-links">
-    <a href="#">Men</a>
-    <a href="#">Women</a>
-    <a href="#">Kids</a>
-    <a href="#">Sale</a>
+  <div class="logo">JD Concept</div>
+  <div class="nav">
+    <a href="#">Men</a><a href="#">Women</a><a href="#">Kids</a><a href="#">Sale</a>
   </div>
-  <div style="display:flex; gap:10px; align-items:center;">
-    <div class="search-box">
-      <input type="text" id="search" placeholder="Search..." onkeyup="filterProducts()">
-    </div>
-    <div class="cart" id="cart">0</div>
+  <div class="right">
+    <input id="search" placeholder="Search..." onkeyup="filter()" />
+    <div class="cart-btn" onclick="toggleCart()">Cart (<span id="count">0</span>)</div>
   </div>
 </header>
 
 <section class="hero">
   <div class="hero-content">
-    <h2>Level Up Your Style</h2>
-    <p>Latest drops from Nike, Adidas & more</p>
+    <h1>Next Level Streetwear</h1>
     <button>Shop Now</button>
   </div>
 </section>
 
-<div class="layout">
+<div class="container">
   <div class="sidebar">
     <h3>Brands</h3>
-    <button onclick="filterBrand('all')">All</button>
-    <button onclick="filterBrand('Nike')">Nike</button>
-    <button onclick="filterBrand('Adidas')">Adidas</button>
-    <button onclick="filterBrand('Puma')">Puma</button>
+    <button onclick="setBrand('all')">All</button>
+    <button onclick="setBrand('Nike')">Nike</button>
+    <button onclick="setBrand('Adidas')">Adidas</button>
   </div>
-
-  <div class="products" id="products"></div>
+  <div class="grid" id="grid"></div>
 </div>
 
-<footer>
-  © 2026 JD Redesign Concept
-</footer>
+<div class="modal" id="modal">
+  <div class="modal-box" id="modalBox"></div>
+</div>
+
+<div class="cart" id="cartBox">
+  <h2>Your Cart</h2>
+  <div id="cartItems"></div>
+</div>
 
 <script>
-  const products = [
-    { name: "Nike Air Max", price: 120, brand: "Nike", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff" },
-    { name: "Adidas Ultraboost", price: 140, brand: "Adidas", image: "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb" },
-    { name: "Puma RS-X", price: 100, brand: "Puma", image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a" }
-  ];
+const data=[
+{name:'Nike Air Max',price:120,brand:'Nike',img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff'},
+{name:'Adidas Ultraboost',price:140,brand:'Adidas',img:'https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb'}
+];
+let cart=[];let brand='all';
 
-  let cartCount = 0;
-  let currentBrand = 'all';
+function render(list){
+const g=document.getElementById('grid');g.innerHTML='';
+list.forEach(p=>{
+ g.innerHTML+=`<div class='card' onclick='openProduct(${JSON.stringify(p)})'>
+ <img src='${p.img}'><div class='card-content'><h3>${p.name}</h3><div class='price'>£${p.price}</div></div></div>`
+});}
 
-  function displayProducts(list) {
-    const container = document.getElementById('products');
-    container.innerHTML = '';
+function filter(){
+let s=document.getElementById('search').value.toLowerCase();
+let f=data.filter(p=>p.name.toLowerCase().includes(s));
+if(brand!=='all')f=f.filter(p=>p.brand===brand);
+render(f);
+}
 
-    list.forEach(p => {
-      container.innerHTML += `
-        <div class="card">
-          <img src="${p.image}">
-          <div class="card-content">
-            <h3>${p.name}</h3>
-            <div class="price">£${p.price}</div>
-            <button onclick="addToCart()">Add to Cart</button>
-          </div>
-        </div>
-      `;
-    });
-  }
+function setBrand(b){brand=b;filter();}
 
-  function addToCart() {
-    cartCount++;
-    document.getElementById('cart').innerText = cartCount;
-  }
+function openProduct(p){
+document.getElementById('modal').style.display='flex';
+document.getElementById('modalBox').innerHTML=`
+<h2>${p.name}</h2>
+<img src='${p.img}' style='width:100%;border-radius:10px'>
+<p>£${p.price}</p>
+<button onclick='add(${JSON.stringify(p)})'>Add to Cart</button>
+`;
+}
 
-  function filterProducts() {
-    const search = document.getElementById('search').value.toLowerCase();
-    let filtered = products.filter(p => p.name.toLowerCase().includes(search));
+document.getElementById('modal').onclick=e=>{if(e.target.id==='modal')e.target.style.display='none'};
 
-    if (currentBrand !== 'all') {
-      filtered = filtered.filter(p => p.brand === currentBrand);
-    }
+function add(p){cart.push(p);updateCart();}
 
-    displayProducts(filtered);
-  }
+function updateCart(){
+document.getElementById('count').innerText=cart.length;
+let c=document.getElementById('cartItems');c.innerHTML='';
+cart.forEach(i=>c.innerHTML+=`<p>${i.name} - £${i.price}</p>`);
+}
 
-  function filterBrand(brand) {
-    currentBrand = brand;
-    filterProducts();
-  }
+function toggleCart(){document.getElementById('cartBox').classList.toggle('open');}
 
-  displayProducts(products);
+render(data);
 </script>
 
 </body>
